@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
 
+function Hello() {
+  function byFn() {
+    console.log("destroyed");
+  }
+  function hiFn() {
+    console.log("created");
+    return byFn;
+  }
+  useEffect(hiFn, []);
+  return <h1>Hello</h1>;
+}
+
 function App() {
-  const [counter, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
+  const [showing, setShowing] = useState(false);
   const onClick = () => {
-    setValue((prev) => prev + 1);
+    setShowing((prev) => !prev);
   };
-  const onChage = (event) => setKeyword(event.target.value);
-  useEffect(() => {
-    console.log("i run only once.");
-  }, []);
-  useEffect(() => {
-    console.log("i run when keyword changes.");
-  }, [keyword]);
-  useEffect(() => {
-    console.log("i run when counter changes.");
-  }, [counter]);
   return (
     <div>
-      <input onChange={onChage} type="text" placeholder="Search here..." />
-      <h1>{counter}</h1>
-      <button onClick={onClick}>Click me</button>
+      {showing ? <Hello /> : null}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
     </div>
   );
 }
